@@ -9,7 +9,7 @@ const Quiz = (props) => {
     		<AnswerOptions answerOption={key}
     			key={key}
     			answer={props.answer} 
-        		answersCount={props.answersCount} />
+        		onAnswerSelection={props.onAnswerSelection} />
     	);
     }
 	return (
@@ -26,7 +26,7 @@ Quiz.propTypes = {
 content: PropTypes.string,
 answerOptions: PropTypes.array.isRequired,
 answer: PropTypes.string,
-answersCount: PropTypes.object
+onAnswerSelection: PropTypes.func
 }
 
 export default Quiz;

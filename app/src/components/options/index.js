@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import './options.scss';
 
 const Options = (props) => {
-	console.log('@@ props ', props);
 	return (
 		<li>
 		<input type="radio"

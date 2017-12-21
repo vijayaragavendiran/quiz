@@ -14,10 +14,12 @@ const Quiz = (props) => {
     }
 	return (
 		<div>
+		<button value="back" onClick={props.onBack}>back</button>
 		<Question content={props.content}/>
         <ul>
           {props.answerOptions.map(renderAnswerOptions)}
         </ul>
+        <button value="submit" onClick={props.onSubmit}>submit</button>
         </div>
 		)
 }
@@ -26,7 +28,9 @@ Quiz.propTypes = {
 content: PropTypes.string,
 answerOptions: PropTypes.array.isRequired,
 answer: PropTypes.string,
-onAnswerSelection: PropTypes.func
+onAnswerSelection: PropTypes.func,
+onSubmit: PropTypes.func,
+onBack: PropTypes.func
 }
 
 export default Quiz;

@@ -2,25 +2,36 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Question from '../question';
 import AnswerOptions from '../options';
+import Result from '../result';
 
 const Quiz = (props) => {
-	function renderAnswerOptions(key) {
+	function renderAnswerOptions({answerOptions, answer}) {
+		console.log('@@ vv ,', answerOptions, answer);
     return (
-    		<AnswerOptions answerOption={key}
-    			key={key}
-    			answer={props.answer} 
+    		<AnswerOptions answerOption={answerOptions}
+    			answer={answer} 
         		onAnswerSelection={props.onAnswerSelection} />
     	);
-    }
+	}
+	const item = props.questions[props.questions.currentQuestion];
+	
 	return (
 		<div>
+		{/* if (props.questions.currentQuestion === props.questions.length) { */}
+		<div>
 		<button value="back" onClick={props.onBack}>back</button>
-		<Question content={props.content}/>
-        <ul>
-          {props.answerOptions.map(renderAnswerOptions)}
-        </ul>
+				<Question content={item.question}/>
+				<ul>
+					{	renderAnswerOptions(item)} 
+				</ul>
         <button value="submit" onClick={props.onSubmit}>submit</button>
         </div>
+			{/* } else {
+				<div>
+				<Result 
+			  questions={props.questions } /></div>
+			} */}
+			</div>
 		)
 }
 

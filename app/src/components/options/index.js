@@ -2,18 +2,24 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import './options.scss';
 
-const Options = (props) => {
+const Options = ({answerOption, answer, onAnswerSelection}) => {
+	console.log('@@ {answerOption, answer} ', {answerOption, answer});
 	return (
-		<li>
-		<input type="radio"
-			name="radioGroup"
-			checked={props.answerOption === props.answer }
-			value={props.answerOption}
-			onChange={props.onAnswerSelection}
-		/>
-		<label htmlFor={props.answerOption}>{props.answerOption}</label>
+		<ul>
+		{
+			answerOption.map(o => {
+			return <li>
+				<input type="radio"
+					name="radioGroup"
+					value={o.option}
+					checked={o.option === answer} 
+					onChange={onAnswerSelection}
+				/>
+			<label htmlFor={o.option}>{o.option}</label>
 		</li>
-		)
+			})
+		}
+		</ul>)
 }
 
 Options.propTypes = {

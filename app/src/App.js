@@ -2,56 +2,27 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import logo from './logo.svg';
 import './App.css';
-import update from 'react-addons-update';
 import Quiz from './components/quiz';
-import { quizQuestion } from './api/question'
 import * as actions from './actions'
 
 class App extends Component {
     constructor(props) {
         super(props);
         this.handleAnswerSelection = this.handleAnswerSelection.bind(this);
-        this.setUserSelectedValue = this.setUserSelectedValue.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleBack = this.handleBack.bind(this);
     }
 
-    componentWillMount() {
-        console.log('@@ componentWillMount');
-        this.setState(quizQuestion[0]);
-    }
-
-    getNextQuestion() {
-      console.log('@@ state', this.state);
-        this.setState(quizQuestion[this.state.counter + 1]);
-    }
-    getPreviousQuestion() {
-        console.log('@@ current quizQuestion[0] ', quizQuestion);
-        const currentCounter = (this.state.counter - 1);
-        console.log('@@ currentCounter', currentCounter);
-        this.setState(quizQuestion[currentCounter]);
-        console.log('@@ state', this.state);
-    }
-    setUserSelectedValue(answer) {
-        this.setState({
-            answer
-        });
-    }
-
     handleAnswerSelection(event) {
-        this.setUserSelectedValue(event.currentTarget.value);
-        console.log('@@ quizQuestion', quizQuestion);
-        this.props.submit(event.currentTarget.value);
+        this.props.userSelection({val: event.currentTarget.value})
     }
 
     handleSubmit(event) {
-        if (this.state.questionId < quizQuestion.length) {
-            this.getNextQuestion();
-        }
+        this.props.submit(this.props.state);
 
     }
     handleBack(event) {
-        this.getPreviousQuestion();
+        this.props.back(this.props.state.questions);
     }
 
     render() {
@@ -61,11 +32,9 @@ class App extends Component {
               <img src={ logo } className="App-logo" alt = "logo" / >
               <h2> Quiz </h2> 
             </div> 
+            
             <Quiz 
-              content={ this.state.question } 
-              answerOptions={ this.state.answerOptions } 
-              answer={ this.state.answer } 
-              answersCount={ this.state.answersCount } 
+              questions={ this.props.state.questions } 
               onAnswerSelection ={ this.handleAnswerSelection } 
               onSubmit={ this.handleSubmit } 
               onBack={ this.handleBack } /> 
@@ -78,7 +47,7 @@ class App extends Component {
 const mapStateToProps = (state, ownProps) => {
   return {
     // You can now say this.props.books
-    books: state.books
+    state: {...state}
   }
 };
 
@@ -86,7 +55,9 @@ const mapStateToProps = (state, ownProps) => {
 const mapDispatchToProps = (dispatch) => {
   return {
   // You can now say this.props.submit
-    submit: ans => dispatch(actions.submitAction(ans))
+    submit: state => dispatch(actions.submitAction(state)),
+    back: q => dispatch(actions.back(q)),
+    userSelection: val => dispatch(actions.userSelection(val))
   }
 };
 
